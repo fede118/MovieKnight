@@ -4,10 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.section11.movieknight.core.MovieKnightModule
 import com.section11.movieknight.core.SchedulerProvider
-import com.section11.movieknight.interactor.MovieKnightInteractor
+import com.section11.movieknight.interactor.ImDbMoviesInteractor
 import com.section11.movieknight.ui.MovieKnightPresenter
+import com.section11.movieknight.ui.MovieKnightView
 
-class MovieKnightActivity : AppCompatActivity() {
+class MovieKnightActivity : AppCompatActivity(), MovieKnightView {
 
     lateinit var presenter: MovieKnightPresenter
 
@@ -18,7 +19,8 @@ class MovieKnightActivity : AppCompatActivity() {
         val movieKnightModule = MovieKnightModule(applicationContext)
 
         presenter = MovieKnightPresenter(
-            MovieKnightInteractor(movieKnightModule.getComingSoonMoviesRepository()),
+            this,
+            ImDbMoviesInteractor(movieKnightModule.getComingSoonMoviesRepository()),
             SchedulerProvider()
         )
     }

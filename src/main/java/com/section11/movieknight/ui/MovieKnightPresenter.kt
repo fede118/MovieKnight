@@ -1,10 +1,11 @@
 package com.section11.movieknight.ui
 
 import com.section11.movieknight.core.SchedulerProvider
-import com.section11.movieknight.dto.ComingSoonResponse
+import com.section11.movieknight.dto.Movie
 import com.section11.movieknight.interactor.MovieKnightInteractor
 
 class MovieKnightPresenter(
+    view: MovieKnightView,
     interactor: MovieKnightInteractor,
     schedulerProvider: SchedulerProvider
 ) {
@@ -16,7 +17,7 @@ class MovieKnightPresenter(
             .subscribe(this::onComingSoonMoviesRecieved, this::onComingSoonMoviesFailure)
     }
 
-    fun onComingSoonMoviesRecieved(comingSoonResponse: ComingSoonResponse) {
+    fun onComingSoonMoviesRecieved(comingSoonMovies: List<Movie>) {
         val x = 1
     }
 
