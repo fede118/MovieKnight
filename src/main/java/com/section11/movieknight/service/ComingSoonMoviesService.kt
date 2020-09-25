@@ -6,6 +6,7 @@ import retrofit2.http.GET
 
 interface ComingSoonMoviesService {
 
+    // todo: move this key
     @GET("ComingSoon/k_5u3hu1Kl")
     fun getComingSoonMovies(
     ) : Observable<ComingSoonResponse>
