@@ -6,4 +6,6 @@ import io.reactivex.Observable
 interface MovieKnightInteractor {
 
     fun getComingSoonMovies() : Observable<List<Movie>>
+
+    fun getInTheatersMovies() : Observable<List<Movie>>
 }

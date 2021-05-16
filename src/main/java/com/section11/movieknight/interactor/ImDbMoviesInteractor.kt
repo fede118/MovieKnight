@@ -2,18 +2,25 @@ package com.section11.movieknight.interactor
 
 import com.section11.movieknight.dto.Movie
 import com.section11.movieknight.service.ComingSoonMoviesService
+import com.section11.movieknight.service.InTheatersMoviesService
 import io.reactivex.Observable
 
-class ImDbMoviesInteractor(private val moviesService: ComingSoonMoviesService) : MovieKnightInteractor {
+class ImDbMoviesInteractor(
+    private val comingSoonMoviesService: ComingSoonMoviesService,
+    private val inTheatersMoviesService: InTheatersMoviesService
+) : MovieKnightInteractor {
 
     override fun getComingSoonMovies() : Observable<List<Movie>> {
-        return moviesService.getComingSoonMovies()
+        return comingSoonMoviesService.getComingSoonMovies()
             .map {
-                it.items
+                it.movies
             }
     }
 
-    fun getNowInTheatersMovies() {
-        // todo
+    override fun getInTheatersMovies(): Observable<List<Movie>> {
+        return inTheatersMoviesService.getComingSoonMovies()
+            .map {
+                it.movies
+            }
     }
 }
