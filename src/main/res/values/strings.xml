@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MovieKnight</string>
+
+    <string name="in_theater_recycler_title">In Theaters Now</string>
+    <string name="coming_soon_recycler_title">Coming Soon</string>
+
 </resources>

@@ -4,4 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MovieKnightActivity"/>
+    tools:context=".MovieKnightActivity">
+
+    <com.section11.components.recycler.RecyclerComponent
+        android:id="@+id/coming_soon_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/half_screen_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        app:recyclerComponentTitle="@string/coming_soon_recycler_title" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/half_screen_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.section11.components.recycler.RecyclerComponent
+        android:id="@+id/now_playing_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/half_screen_guideline"
+        app:layout_constraintVertical_bias="0.05"
+        app:recyclerComponentTitle="@string/in_theater_recycler_title" />
+</androidx.constraintlayout.widget.ConstraintLayout>
