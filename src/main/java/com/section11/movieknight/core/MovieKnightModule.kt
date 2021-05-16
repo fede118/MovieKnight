@@ -1,9 +1,9 @@
 package com.section11.movieknight.core
 
-import android.content.Context
 import com.section11.movieknight.service.ComingSoonMoviesService
+import com.section11.movieknight.service.InTheatersMoviesService
 
-class MovieKnightModule(context: Context) {
+object MovieKnightModule {
 
     private val dataModule = DataModule()
 
@@ -11,7 +11,7 @@ class MovieKnightModule(context: Context) {
         return dataModule.createRepositoryWithTimeOut(ComingSoonMoviesService::class.java)
     }
 
-    fun getNowInTheatersRepository() {
-        //todo
+    fun getInTheatersRepository() : InTheatersMoviesService {
+        return dataModule.createRepositoryWithTimeOut(InTheatersMoviesService::class.java)
     }
 }
