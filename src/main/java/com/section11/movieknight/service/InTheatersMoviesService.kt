@@ -1,21 +1,19 @@
 package com.section11.movieknight.service
 
+import com.section11.movieknight.core.Constants
 import com.section11.movieknight.dto.InTheatersResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 
-// todo: move this key
-private const val IMDB_KEY = "k_5u3hu1Kl"
-
 interface InTheatersMoviesService {
 
-    @GET("inTheaters/$IMDB_KEY")
+    @GET(Constants.IN_THEATERS_PATH)
     fun getInTheatersMovies() : Observable<InTheatersResponse>
 }
 
 interface InTheatersMoviesSuspendService {
 
-    @GET("inTheaters/$IMDB_KEY")
+    @GET(Constants.IN_THEATERS_PATH)
     suspend fun getInTheatersMoviesCoroutine() : InTheatersResponse
 }
 
