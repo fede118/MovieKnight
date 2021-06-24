@@ -14,6 +14,7 @@ class MovieKnightPresenter(
 ) : InTheatersMoviesServiceCallback, ComingSoonMoviesServiceCallback {
 
     init {
+        // todo: show loading indicator or skeleton while movies are fetched
         getComingSoonMovies()
         getInTheatersMovies()
     }
@@ -43,10 +44,6 @@ class MovieKnightPresenter(
         } else {
             view.setComingSoonMoviesData(comingSoonResponse.movies)
         }
-    }
-
-    fun onResumeReached() {
-
     }
 
     fun onStopReached() {

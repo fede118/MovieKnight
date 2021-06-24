@@ -28,11 +28,6 @@ class MovieKnightActivity : AppCompatActivity(), MovieKnightView, RecyclerItemCl
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.onResumeReached()
-    }
-
     override fun onStop() {
         super.onStop()
         presenter.onStopReached()
