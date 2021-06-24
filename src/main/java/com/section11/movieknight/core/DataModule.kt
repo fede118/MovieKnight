@@ -21,20 +21,19 @@ class DataModule {
         return GSON_INSTANCE
     }
 
-    fun <T> createRepositoryWithTimeOut(repositoryClass: Class<T>): T {
+    fun <T> createRepositoryWithDefaultTimeOut(repositoryClass: Class<T>): T {
         val okhttpClient = OkHttpClient()
         okhttpClient.newBuilder()
             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             .build()
 
-        val retrofit = Retrofit.Builder()
+        return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okhttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(GSON_INSTANCE))
             .build().create(repositoryClass)
-        return retrofit
     }
 
     companion object {
