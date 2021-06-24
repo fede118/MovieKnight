@@ -1,11 +1,14 @@
 package com.section11.movieknight.interactor
 
-import com.section11.movieknight.dto.Movie
-import io.reactivex.Observable
+import com.section11.movieknight.service.ComingSoonMoviesServiceCallback
+import com.section11.movieknight.service.InTheatersMoviesServiceCallback
 
 interface MovieKnightInteractor {
 
-    fun getComingSoonMovies() : Observable<List<Movie>>
+    fun getComingSoonMovies(callback: ComingSoonMoviesServiceCallback)
 
-    fun getInTheatersMovies() : Observable<List<Movie>>
+    fun getInTheatersMovies(callback: InTheatersMoviesServiceCallback)
+
+    fun cancelPendingRequests()
+
 }
