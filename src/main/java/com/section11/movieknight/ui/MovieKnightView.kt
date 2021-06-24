@@ -7,4 +7,8 @@ interface MovieKnightView {
     fun setComingSoonMoviesData(movieList: List<ViewHolderModel>)
 
     fun setNowPlayingMoviesData(movieList: List<ViewHolderModel>)
+
+    fun showErrorToast(errorMessage: String) {
+
+    }
 }

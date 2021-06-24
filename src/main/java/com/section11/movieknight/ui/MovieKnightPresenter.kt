@@ -1,16 +1,17 @@
 package com.section11.movieknight.ui
 
 import android.annotation.SuppressLint
-import androidx.annotation.VisibleForTesting
-import com.section11.movieknight.core.SchedulerProvider
-import com.section11.movieknight.dto.Movie
+
+import com.section11.movieknight.dto.ComingSoonResponse
+import com.section11.movieknight.dto.InTheatersResponse
 import com.section11.movieknight.interactor.MovieKnightInteractor
+import com.section11.movieknight.service.ComingSoonMoviesServiceCallback
+import com.section11.movieknight.service.InTheatersMoviesServiceCallback
 
 class MovieKnightPresenter(
     private val view: MovieKnightView,
-    private val interactor: MovieKnightInteractor,
-    private val schedulerProvider: SchedulerProvider
-) {
+    private val interactor: MovieKnightInteractor
+) : InTheatersMoviesServiceCallback, ComingSoonMoviesServiceCallback {
 
     init {
         getComingSoonMovies()
@@ -19,37 +20,36 @@ class MovieKnightPresenter(
 
     @SuppressLint("CheckResult")
     private fun getComingSoonMovies() {
-        interactor.getComingSoonMovies()
-            .observeOn(schedulerProvider.ui())
-            .subscribeOn(schedulerProvider.io())
-            .subscribe(this::onComingSoonMoviesReceived, this::onComingSoonMoviesFailure)
+        interactor.getComingSoonMovies(this)
     }
 
-    @SuppressLint("CheckResult")
     private fun getInTheatersMovies() {
-        interactor.getInTheatersMovies()
-            .observeOn(schedulerProvider.ui())
-            .subscribeOn(schedulerProvider.io())
-            .subscribe(this::onNowPlayingMoviesReceived, this::onInTheatersMoviesFailure)
+        interactor.getInTheatersMovies(this)
     }
 
-    @VisibleForTesting
-    fun onComingSoonMoviesReceived(comingSoonMovies: List<Movie>) {
-        view.setComingSoonMoviesData(comingSoonMovies)
+    override fun handleInTheatersResult(inTheatersResponse: InTheatersResponse) {
+        if (inTheatersResponse.movies.isNullOrEmpty()) {
+            // todo: show error
+            view.showErrorToast("Error launching coroutine")
+        } else {
+            view.setNowPlayingMoviesData(inTheatersResponse.movies)
+        }
     }
 
-    @VisibleForTesting
-    fun onComingSoonMoviesFailure(throwable: Throwable) {
-        // todo: handle this error
+    override fun handleComingSoonResult(comingSoonResponse: ComingSoonResponse) {
+        if (comingSoonResponse.movies.isNullOrEmpty()) {
+            // todo: show error
+            view.showErrorToast("Error launching coroutine")
+        } else {
+            view.setComingSoonMoviesData(comingSoonResponse.movies)
+        }
     }
 
-    @VisibleForTesting
-    fun onNowPlayingMoviesReceived(inTheatersMovies: List<Movie>) {
-        view.setNowPlayingMoviesData(inTheatersMovies)
+    fun onResumeReached() {
+
     }
 
-    @VisibleForTesting
-    fun onInTheatersMoviesFailure(throwable: Throwable) {
-        // todo: handle this error
+    fun onStopReached() {
+        interactor.cancelPendingRequests()
     }
 }

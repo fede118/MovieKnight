@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import com.section11.components.recycler.listener.RecyclerItemClickListener
 import com.section11.components.recycler.model.ViewHolderModel
-import com.section11.movieknight.core.MovieKnightModule
-import com.section11.movieknight.core.SchedulerProvider
+import com.section11.movieknight.core.MoviesInteractorProvider
 import com.section11.movieknight.databinding.ActivityMainBinding
-import com.section11.movieknight.interactor.ImDbMoviesInteractor
 import com.section11.movieknight.ui.MovieKnightPresenter
 import com.section11.movieknight.ui.MovieKnightView
 
@@ -23,14 +21,21 @@ class MovieKnightActivity : AppCompatActivity(), MovieKnightView, RecyclerItemCl
         binding = ActivityMainBinding.inflate(LayoutInflater.from(applicationContext))
         setContentView(binding.root)
 
+        // todo: hard coded true, should be a feature flag
         presenter = MovieKnightPresenter(
             this,
-            ImDbMoviesInteractor(
-                MovieKnightModule.getComingSoonMoviesRepository(),
-                MovieKnightModule.getInTheatersRepository()
-            ),
-            SchedulerProvider()
+            MoviesInteractorProvider.getMoviesInteractors(true)
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResumeReached()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onStopReached()
     }
 
     override fun setComingSoonMoviesData(movieList: List<ViewHolderModel>) {
@@ -43,5 +48,9 @@ class MovieKnightActivity : AppCompatActivity(), MovieKnightView, RecyclerItemCl
 
     override fun onRecyclerItemClicked(model: ViewHolderModel) {
         Toast.makeText(this, "Movie touched: " + model.getTitle(), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showErrorToast(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 }
