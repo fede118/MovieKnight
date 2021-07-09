@@ -1,19 +1,19 @@
 package com.section11.movieknight.service
 
-import com.section11.movieknight.core.Constants
+import com.section11.movieknight.core.Constants.IMDB_KEY
 import com.section11.movieknight.dto.InTheatersResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 
 interface InTheatersMoviesService {
 
-    @GET(Constants.IN_THEATERS_PATH)
+    @GET("inTheaters/$IMDB_KEY")
     fun getInTheatersMovies() : Observable<InTheatersResponse>
 }
 
 interface InTheatersMoviesSuspendService {
 
-    @GET(Constants.IN_THEATERS_PATH)
+    @GET("inTheaters/$IMDB_KEY")
     suspend fun getInTheatersMoviesCoroutine() : InTheatersResponse
 }
 
