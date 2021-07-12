@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import com.section11.components.recycler.listener.RecyclerItemClickListener
 import com.section11.components.recycler.model.ViewHolderModel
-import com.section11.movieknight.core.MoviesInteractorProvider
+import com.section11.movieknight.core.InteractorsProvider
 import com.section11.movieknight.databinding.ActivityMainBinding
 import com.section11.movieknight.ui.MovieKnightPresenter
 import com.section11.movieknight.ui.MovieKnightView
@@ -24,7 +24,7 @@ class MovieKnightActivity : AppCompatActivity(), MovieKnightView, RecyclerItemCl
         // todo: hard coded true, should be a feature flag
         presenter = MovieKnightPresenter(
             this,
-            MoviesInteractorProvider.getMoviesInteractors(true)
+            InteractorsProvider.getInteractor(this, true)
         )
     }
 

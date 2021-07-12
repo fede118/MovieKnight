@@ -24,7 +24,9 @@ class CoroutineImdbMoviesInteractor(
 
     override fun getInTheatersMovies(callback: InTheatersMoviesServiceCallback) {
         inTheatersMoviesJob = GlobalScope.launch(Dispatchers.Main) {
-            val inTheatersResponse = withContext(Dispatchers.IO) {getInTheatersMovies()}
+            val inTheatersResponse = withContext(Dispatchers.IO) {
+                getInTheatersMovies()
+            }
 
             callback.handleInTheatersResult(inTheatersResponse)
         }

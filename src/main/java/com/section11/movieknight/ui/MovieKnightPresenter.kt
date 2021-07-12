@@ -1,7 +1,6 @@
 package com.section11.movieknight.ui
 
 import android.annotation.SuppressLint
-
 import com.section11.movieknight.dto.ComingSoonResponse
 import com.section11.movieknight.dto.InTheatersResponse
 import com.section11.movieknight.interactor.MovieKnightInteractor
