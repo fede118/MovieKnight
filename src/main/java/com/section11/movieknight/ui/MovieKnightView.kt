@@ -8,7 +8,9 @@ interface MovieKnightView {
 
     fun setNowPlayingMoviesData(movieList: List<ViewHolderModel>)
 
-    fun showErrorToast(errorMessage: String) {
+    fun showErrorToast(errorMessage: String)
 
-    }
+    fun showRefreshProgressBar()
+
+    fun hideRefreshProgressBar()
 }

@@ -1,6 +1,7 @@
-package com.section11.movieknight.core
+package com.section11.movieknight.core.di
 
 import com.google.gson.GsonBuilder
+import com.section11.movieknight.core.Constants.BASE_URL
 import com.section11.movieknight.service.ComingSoonMoviesService
 import com.section11.movieknight.service.ComingSoonMoviesSuspendService
 import com.section11.movieknight.service.InTheatersMoviesService
@@ -30,16 +31,16 @@ class MovieKnightModule {
     }
 
     @Provides
-    fun provideInTheatersRepository() : InTheatersMoviesService {
+    fun provideInTheatersService() : InTheatersMoviesService {
         return createRepositoryWithDefaultTimeOut(InTheatersMoviesService::class.java)
     }
 
     @Provides
-    fun provideInTheatersSuspendRepository() : InTheatersMoviesSuspendService {
+    fun provideInTheatersSuspendService() : InTheatersMoviesSuspendService {
         return createRepositoryWithDefaultTimeOut(InTheatersMoviesSuspendService::class.java)
     }
 
-    private fun <T> createRepositoryWithDefaultTimeOut(repositoryClass: Class<T>): T {
+    private fun <T> createRepositoryWithDefaultTimeOut(repositoryClass: Class<T>, baseUrl: String = BASE_URL): T {
         val okhttpClient = OkHttpClient()
         okhttpClient.newBuilder()
             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -47,7 +48,7 @@ class MovieKnightModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(okhttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(GSON_INSTANCE))
@@ -55,8 +56,6 @@ class MovieKnightModule {
     }
 
     companion object {
-        private const val BASE_URL = "https://imdb-api.com/en/API/"
-        private const val CACHE_SIZE = 10 * 1024 * 1024
         private const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         private const val DEFAULT_TIMEOUT = 10.toLong()
         private val GSON_INSTANCE = GsonBuilder()

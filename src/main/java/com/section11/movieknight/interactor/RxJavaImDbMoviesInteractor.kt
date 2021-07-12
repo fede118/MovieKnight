@@ -2,7 +2,7 @@ package com.section11.movieknight.interactor
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.section11.movieknight.core.SchedulerProvider
+import com.section11.movieknight.core.di.SchedulerProvider
 import com.section11.movieknight.dto.ComingSoonResponse
 import com.section11.movieknight.dto.InTheatersResponse
 import com.section11.movieknight.dto.Movie

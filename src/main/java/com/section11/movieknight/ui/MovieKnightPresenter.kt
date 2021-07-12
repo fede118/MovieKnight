@@ -14,8 +14,7 @@ class MovieKnightPresenter(
 
     init {
         // todo: show loading indicator or skeleton while movies are fetched
-        getComingSoonMovies()
-        getInTheatersMovies()
+        fetchMovies()
     }
 
     @SuppressLint("CheckResult")
@@ -33,6 +32,7 @@ class MovieKnightPresenter(
             view.showErrorToast("Error launching coroutine")
         } else {
             view.setNowPlayingMoviesData(inTheatersResponse.movies)
+            view.hideRefreshProgressBar()
         }
     }
 
@@ -42,10 +42,21 @@ class MovieKnightPresenter(
             view.showErrorToast("Error launching coroutine")
         } else {
             view.setComingSoonMoviesData(comingSoonResponse.movies)
+            view.hideRefreshProgressBar()
         }
     }
 
     fun onStopReached() {
         interactor.cancelPendingRequests()
+    }
+
+    fun onPulledToRefresh() {
+        fetchMovies()
+    }
+
+    private fun fetchMovies() {
+        view.showRefreshProgressBar()
+        getComingSoonMovies()
+        getInTheatersMovies()
     }
 }

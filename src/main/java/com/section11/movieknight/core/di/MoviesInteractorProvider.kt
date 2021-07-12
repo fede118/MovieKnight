@@ -1,6 +1,7 @@
 package com.section11.movieknight.core
 
 import android.content.Context
+import com.section11.movieknight.core.di.SchedulerProvider
 import com.section11.movieknight.interactor.CoroutineImdbMoviesInteractor
 import com.section11.movieknight.interactor.MovieKnightInteractor
 import com.section11.movieknight.interactor.RxJavaImDbMoviesInteractor

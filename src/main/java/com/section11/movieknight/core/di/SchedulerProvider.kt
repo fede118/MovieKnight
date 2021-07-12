@@ -1,4 +1,4 @@
-package com.section11.movieknight.core
+package com.section11.movieknight.core.di
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
