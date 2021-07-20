@@ -2,21 +2,18 @@ package com.section11.movieknight.service
 
 import com.section11.movieknight.core.Constants.IMDB_KEY
 import com.section11.movieknight.dto.ComingSoonResponse
-import io.reactivex.Observable
+import com.section11.movieknight.dto.Movie
 import retrofit2.http.GET
+import javax.inject.Inject
+
+class FetchComingSoonMovies @Inject constructor(
+    private val comingSoonMoviesService: ComingSoonMoviesService
+) {
+    suspend operator fun invoke(): List<Movie> =
+        comingSoonMoviesService.getComingSoonMovies().movies
+}
 
 interface ComingSoonMoviesService {
-
-    @GET("ComingSoon/$IMDB_KEY")
-    fun getComingSoonMovies() : Observable<ComingSoonResponse>
-}
-
-interface ComingSoonMoviesSuspendService {
-
     @GET("ComingSoon/$IMDB_KEY")
     suspend fun getComingSoonMovies() : ComingSoonResponse
-}
-
-interface ComingSoonMoviesServiceCallback {
-    fun handleComingSoonResult(comingSoonResponse: ComingSoonResponse)
 }

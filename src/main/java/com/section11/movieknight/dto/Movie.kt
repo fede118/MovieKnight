@@ -1,9 +1,11 @@
 package com.section11.movieknight.dto
 
+import com.google.gson.annotations.SerializedName
 import com.section11.components.recycler.model.ViewHolderModel
 
 class Movie constructor(
-    val id: String,
+    @SerializedName("id")
+    val movieId: String,
     private val title: String,
     val fullTitle: String,
     val year: String,
@@ -19,6 +21,10 @@ class Movie constructor(
     val directors: String,
     val stars: String
 ) : ViewHolderModel {
+    override fun getId(): String? {
+        return movieId
+    }
+
     override fun getTitle(): String {
         return title
     }
