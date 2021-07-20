@@ -3,9 +3,7 @@ package com.section11.movieknight.core.di
 import com.google.gson.GsonBuilder
 import com.section11.movieknight.core.Constants.BASE_URL
 import com.section11.movieknight.service.ComingSoonMoviesService
-import com.section11.movieknight.service.ComingSoonMoviesSuspendService
 import com.section11.movieknight.service.InTheatersMoviesService
-import com.section11.movieknight.service.InTheatersMoviesSuspendService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,18 +24,8 @@ class MovieKnightModule {
     }
 
     @Provides
-    fun provideComingSoonMoviesSuspendService() : ComingSoonMoviesSuspendService {
-        return createRepositoryWithDefaultTimeOut(ComingSoonMoviesSuspendService::class.java)
-    }
-
-    @Provides
     fun provideInTheatersService() : InTheatersMoviesService {
         return createRepositoryWithDefaultTimeOut(InTheatersMoviesService::class.java)
-    }
-
-    @Provides
-    fun provideInTheatersSuspendService() : InTheatersMoviesSuspendService {
-        return createRepositoryWithDefaultTimeOut(InTheatersMoviesSuspendService::class.java)
     }
 
     private fun <T> createRepositoryWithDefaultTimeOut(repositoryClass: Class<T>, baseUrl: String = BASE_URL): T {

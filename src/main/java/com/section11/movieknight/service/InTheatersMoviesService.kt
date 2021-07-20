@@ -2,21 +2,19 @@ package com.section11.movieknight.service
 
 import com.section11.movieknight.core.Constants.IMDB_KEY
 import com.section11.movieknight.dto.InTheatersResponse
-import io.reactivex.Observable
+import com.section11.movieknight.dto.Movie
 import retrofit2.http.GET
+import javax.inject.Inject
+
+class FetchInTheatersMovies @Inject constructor(
+    private val inTheatersMoviesService: InTheatersMoviesService
+) {
+    suspend operator fun invoke(): List<Movie> =
+        inTheatersMoviesService.getInTheatersMovies().movies
+}
 
 interface InTheatersMoviesService {
 
     @GET("inTheaters/$IMDB_KEY")
-    fun getInTheatersMovies() : Observable<InTheatersResponse>
-}
-
-interface InTheatersMoviesSuspendService {
-
-    @GET("inTheaters/$IMDB_KEY")
-    suspend fun getInTheatersMoviesCoroutine() : InTheatersResponse
-}
-
-interface InTheatersMoviesServiceCallback {
-    fun handleInTheatersResult(inTheatersResponse: InTheatersResponse)
+    suspend fun getInTheatersMovies() : InTheatersResponse
 }
