@@ -1,6 +1,6 @@
 package com.section11.movieknight.service
 
-import com.section11.movieknight.core.Constants.IMDB_KEY
+import com.section11.movieknight.BuildConfig.IMDB_KEY
 import com.section11.movieknight.dto.ComingSoonResponse
 import com.section11.movieknight.dto.Movie
 import retrofit2.http.GET
