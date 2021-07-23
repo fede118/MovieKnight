@@ -1,17 +1,27 @@
 package com.section11.movieknight.core.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.room.Room
 import com.google.gson.GsonBuilder
-import com.section11.movieknight.core.Constants.BASE_URL
+import com.section11.movieknight.BuildConfig.BASE_URL
+import com.section11.movieknight.core.Constants.MOVIE_KNIGHT_SHARED_PREFERENCES
+import com.section11.movieknight.db.MovieDatabase
+import com.section11.movieknight.db.MovieKnightDatabase
+import com.section11.movieknight.db.MoviesLocalRepository
+import com.section11.movieknight.dto.MovieDao
 import com.section11.movieknight.service.ComingSoonMoviesService
 import com.section11.movieknight.service.InTheatersMoviesService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,7 +37,30 @@ class MovieKnightModule {
         return createRepositoryWithDefaultTimeOut(InTheatersMoviesService::class.java)
     }
 
-    private fun <T> createRepositoryWithDefaultTimeOut(repositoryClass: Class<T>, baseUrl: String = BASE_URL): T {
+    @Provides
+    fun provideMoviesRepository(movieDao: MovieDao, sharedPreferences: SharedPreferences) : MoviesLocalRepository {
+        return MoviesLocalRepository(movieDao, sharedPreferences)
+    }
+
+    @Provides
+    fun provideMovieDao(movieDatabase: MovieDatabase) : MovieDao {
+        return movieDatabase.movieDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMoviesDatabase(@ApplicationContext appContext: Context): MovieDatabase {
+        return Room.databaseBuilder(appContext, MovieKnightDatabase::class.java, "MovieKnight-Database").build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences {
+        return appContext.getSharedPreferences(MOVIE_KNIGHT_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+
+    }
+
+    private fun <T> createRepositoryWithDefaultTimeOut(repositoryClass: Class<T>): T {
         val okhttpClient = OkHttpClient()
         okhttpClient.newBuilder()
             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -35,7 +68,7 @@ class MovieKnightModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BASE_URL)
             .client(okhttpClient)
             .addConverterFactory(GsonConverterFactory.create(GSON_INSTANCE))
             .build().create(repositoryClass)

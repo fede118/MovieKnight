@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.section11.components.recycler.model.ViewHolderModel
 import com.section11.movieknight.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieKnightActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class MovieKnightActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MovieListViewModel by viewModels()
@@ -19,7 +18,7 @@ class MovieKnightActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(applicationContext))
-        binding.root.setOnRefreshListener(this)
+        binding.root.setOnRefreshListener(viewModel)
         setContentView(binding.root)
 
         viewModel.getMovies()
@@ -28,10 +27,6 @@ class MovieKnightActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshLis
 
         viewModel.state.observe(this, ::handleMoviesFetched)
         viewModel.event.observe(this, ::handleEvent)
-    }
-
-    override fun onRefresh() {
-        viewModel.getMovies()
     }
 
     private fun setComingSoonMoviesData(movieList: List<ViewHolderModel>) {
