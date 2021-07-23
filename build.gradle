@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Fede_\\Documents\\Programming\\MovieKnightKeyStore\\MovieKnightKey.jks')
+            storePassword 'federico'
+            keyAlias 'federico0'
+            keyPassword 'federico'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "30.0.1"
 
@@ -31,8 +39,15 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", '"https://imdb-api.com/en/API/"'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "BASE_URL", '"https://private-ab090a-movieknightfeatureflags.apiary-mock.com"'
         }
     }
 
@@ -60,6 +75,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     implementation "androidx.activity:activity-ktx:1.2.3"
+
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:2.3.0"
 
     // Dagger/Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

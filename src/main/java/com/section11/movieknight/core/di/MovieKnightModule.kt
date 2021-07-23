@@ -68,7 +68,7 @@ class MovieKnightModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BASE_URL)
             .client(okhttpClient)
             .addConverterFactory(GsonConverterFactory.create(GSON_INSTANCE))
             .build().create(repositoryClass)
