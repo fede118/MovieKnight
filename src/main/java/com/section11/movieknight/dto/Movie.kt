@@ -1,35 +1,48 @@
 package com.section11.movieknight.dto
 
+import androidx.room.*
 import com.google.gson.annotations.SerializedName
 import com.section11.components.recycler.model.ViewHolderModel
 
-class Movie constructor(
+@Entity
+open class Movie constructor(
+    @PrimaryKey(autoGenerate = true)
+    val primaryKey: Int,
     @SerializedName("id")
-    val movieId: String,
-    private val title: String,
-    val fullTitle: String,
-    val year: String,
-    val releaseState: String,
-    val image: String,
-    val runtimeMins: String,
-    val runtimeStr: String,
-    val plot: String,
-    val contentRating: String,
-    val imDbRating: String,
-    val metacriticRating: String,
-    val genres: String,
-    val directors: String,
-    val stars: String
+    @ColumnInfo(name = "ImdbId") val movieId: String,
+    @SerializedName("title")
+    @ColumnInfo val movieTitle: String,
+    @ColumnInfo val image: String,
+    @ColumnInfo var movieType: MovieType
 ) : ViewHolderModel {
     override fun getId(): String? {
         return movieId
     }
 
     override fun getTitle(): String {
-        return title
+        return movieTitle
     }
 
     override fun getImageUrl(): String {
         return image
     }
+}
+
+@Dao
+interface MovieDao {
+    @Query("SELECT * FROM movie")
+    fun getAll(): List<Movie>
+
+    @Query("SELECT * FROM movie WHERE movieType == :movieType")
+    fun getFromMovieType(movieType: MovieType): List<Movie>
+
+    @Insert
+    fun insertAll(vararg movie: Movie)
+
+    @Delete
+    fun deleteMovies(vararg movie: Movie)
+}
+
+enum class MovieType {
+    COMING_SOON, IN_THEATERS
 }
