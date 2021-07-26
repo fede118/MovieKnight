@@ -3,7 +3,6 @@ package com.section11.movieknight.db
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.section11.movieknight.dto.Movie
-import com.section11.movieknight.dto.MovieDao
 import com.section11.movieknight.dto.MovieType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -52,7 +51,7 @@ class MoviesLocalRepository @Inject constructor(
                 MovieType.COMING_SOON -> getComingSoonMovies()
             }
 
-            movieDao.deleteMovies(*moviesToDelete.toTypedArray())
+            movieDao.deleteMovies(moviesToDelete)
             insertAll(movies)
             saveTimestamp()
         }
@@ -63,7 +62,7 @@ class MoviesLocalRepository @Inject constructor(
      */
     suspend fun insertAll(movies: List<Movie>) {
         return withContext(Dispatchers.IO) {
-            movieDao.insertAll(*movies.toTypedArray())
+            movieDao.insertAll(movies)
             saveTimestamp()
         }
     }
