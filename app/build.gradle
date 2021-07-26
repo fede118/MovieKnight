@@ -6,13 +6,20 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+// Load keystore
+def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\Fede_\\Documents\\Programming\\MovieKnightKeyStore\\MovieKnightKey.jks')
-            storePassword 'federico'
-            keyAlias 'federico0'
-            keyPassword 'federico'
+            if (keystorePropertiesFile.exists()) {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
         }
     }
     compileSdkVersion 29
