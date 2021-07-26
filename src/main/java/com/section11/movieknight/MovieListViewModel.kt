@@ -17,7 +17,7 @@ import com.section11.movieknight.service.FetchComingSoonMovies
 import com.section11.movieknight.service.FetchInTheatersMovies
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 

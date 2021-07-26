@@ -15,5 +15,5 @@ class FetchComingSoonMovies @Inject constructor(
 
 interface ComingSoonMoviesService {
     @GET("ComingSoon/$IMDB_KEY")
-    suspend fun getComingSoonMovies() : ComingSoonResponse
+    suspend fun getComingSoonMovies(): ComingSoonResponse
 }

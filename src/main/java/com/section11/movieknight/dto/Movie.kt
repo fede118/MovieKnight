@@ -1,6 +1,13 @@
 package com.section11.movieknight.dto
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ColumnInfo
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.PrimaryKey
+import androidx.room.Query
+
 import com.google.gson.annotations.SerializedName
 import com.section11.components.recycler.model.ViewHolderModel
 
@@ -37,10 +44,10 @@ interface MovieDao {
     fun getFromMovieType(movieType: MovieType): List<Movie>
 
     @Insert
-    fun insertAll(vararg movie: Movie)
+    fun insertAll(movie: List<Movie>)
 
     @Delete
-    fun deleteMovies(vararg movie: Movie)
+    fun deleteMovies(movie: List<Movie>)
 }
 
 enum class MovieType {

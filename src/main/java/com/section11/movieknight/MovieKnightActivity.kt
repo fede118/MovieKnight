@@ -56,6 +56,7 @@ class MovieKnightActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressWarnings("ForbiddenComment")
     private fun handleEvent(event: MovieListViewModel.Event) {
         when(event) {
             is MovieListViewModel.Event.ShowMovieDetails -> {
