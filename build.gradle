@@ -1,90 +1,118 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-android-extensions'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
-}
-
-android {
-    signingConfigs {
-        release {
-            storeFile file('C:\\Users\\Fede_\\Documents\\Programming\\MovieKnightKeyStore\\MovieKnightKey.jks')
-            storePassword 'federico'
-            keyAlias 'federico0'
-            keyPassword 'federico'
-        }
+buildscript {
+    ext.kotlin_version = "1.4.32"
+    ext.hilt_version = '2.37'
+    repositories {
+        google()
+        jcenter()
+        gradlePluginPortal()
     }
-    compileSdkVersion 29
-    buildToolsVersion "30.0.1"
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradleTools"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
-    defaultConfig {
-        applicationId "com.section11.movieknight"
-        minSdkVersion 26
-        targetSdkVersion 29
-        versionCode 1
-        versionName "$libraryVersion"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", '"https://imdb-api.com/en/API/"'
-            signingConfig signingConfigs.release
-        }
-
-        debug {
-            minifyEnabled false
-            buildConfigField "String", "BASE_URL", '"https://private-ab090a-movieknightfeatureflags.apiary-mock.com"'
-        }
-    }
-
-    buildFeatures {
-        viewBinding true
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
-dependencies {
-    implementation project(":components")
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+apply plugin: "io.gitlab.arturbosch.detekt"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+}
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation 'com.google.code.gson:gson:2.8.6'
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$androidCoroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$androidCoroutinesVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    implementation "androidx.activity:activity-ktx:1.2.3"
+subprojects {
+    detekt {
 
-    // Room
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:2.3.0"
+        // Version of Detekt that will be used. When unspecified the latest detekt
+        // version found will be used. Override to stay on the same version.
+        toolVersion = "1.18.0-RC2"
 
-    // Dagger/Hilt
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+        // The directories where detekt looks for source files.
+        // Defaults to `files("src/main/java", "src/test/java", "src/main/kotlin", "src/test/kotlin")`.
+        input = files(rootProject.rootDir)
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+        // Builds the AST in parallel. Rules are always executed in parallel.
+        // Can lead to speedups in larger projects. `false` by default.
+        parallel = false
+
+        // Define the detekt configuration(s) you want to use.
+        // Defaults to the default detekt configuration.
+        config = files("$rootProject/config/detekt/detekt.yml")
+
+        // Applies the config files on top of detekt's default config file. `false` by default.
+        buildUponDefaultConfig = false
+
+        // Turns on all the rules. `false` by default.
+        allRules = true
+
+        // Specifying a baseline file. All findings stored in this file in subsequent runs of detekt.
+        baseline = file("path/to/baseline.xml")
+
+        // Disables all default detekt rulesets and will only run detekt with custom rules
+        // defined in plugins passed in with `detektPlugins` configuration. `false` by default.
+        disableDefaultRuleSets = false
+
+        // Adds debug output during task execution. `false` by default.
+        debug = false
+
+        // If set to `true` the build does not fail when the
+        // maxIssues count was reached. Defaults to `false`.
+        ignoreFailures = false
+
+        // Android: Don't create tasks for the specified build types (e.g. "release")
+        ignoredBuildTypes = ["release"]
+
+        // Android: Don't create tasks for the specified build flavor (e.g. "production")
+        ignoredFlavors = ["production"]
+
+        // Android: Don't create tasks for the specified build variants (e.g. "productionRelease")
+        ignoredVariants = ["productionRelease"]
+
+        // Specify the base path for file paths in the formatted reports.
+        // If not set, all file paths reported will be absolute file path.
+        basePath = projectDir
+
+        reports {
+            // Enable/Disable XML report (default: true)
+            xml {
+                enabled = true
+                destination = file("build/reports/detekt.xml")
+            }
+            // Enable/Disable HTML report (default: true)
+            html {
+                enabled = true
+                destination = file("build/reports/detekt.html")
+            }
+            // Enable/Disable TXT report (default: true)
+            txt {
+                enabled = false
+                destination = file("build/reports/detekt.txt")
+            }
+            // Enable/Disable SARIF report (default: false)
+            sarif {
+                enabled = false
+                destination = file("build/reports/detekt.sarif")
+            }
+            custom {
+                // The simple class name of your custom report.
+                reportId = "CustomJsonReport"
+                destination = file("build/reports/detekt.json")
+            }
+        }
+    }
+}
+
+configurations {
+    detekt
 }
