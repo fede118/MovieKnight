@@ -1,6 +1,8 @@
 package com.section11.movieknight.dto
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.section11.components.recycler.model.ViewHolderModel
 
@@ -26,21 +28,6 @@ open class Movie constructor(
     override fun getImageUrl(): String {
         return image
     }
-}
-
-@Dao
-interface MovieDao {
-    @Query("SELECT * FROM movie")
-    fun getAll(): List<Movie>
-
-    @Query("SELECT * FROM movie WHERE movieType == :movieType")
-    fun getFromMovieType(movieType: MovieType): List<Movie>
-
-    @Insert
-    fun insertAll(vararg movie: Movie)
-
-    @Delete
-    fun deleteMovies(vararg movie: Movie)
 }
 
 enum class MovieType {

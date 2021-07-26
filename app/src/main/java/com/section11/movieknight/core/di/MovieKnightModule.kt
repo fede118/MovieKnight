@@ -6,10 +6,10 @@ import androidx.room.Room
 import com.google.gson.GsonBuilder
 import com.section11.movieknight.BuildConfig.BASE_URL
 import com.section11.movieknight.core.Constants.MOVIE_KNIGHT_SHARED_PREFERENCES
+import com.section11.movieknight.db.MovieDao
 import com.section11.movieknight.db.MovieDatabase
 import com.section11.movieknight.db.MovieKnightDatabase
 import com.section11.movieknight.db.MoviesLocalRepository
-import com.section11.movieknight.dto.MovieDao
 import com.section11.movieknight.service.ComingSoonMoviesService
 import com.section11.movieknight.service.InTheatersMoviesService
 import dagger.Module
