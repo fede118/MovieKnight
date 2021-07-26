@@ -51,6 +51,10 @@ android {
         }
     }
 
+    buildTypes.each {
+        it.buildConfigField "String", "IMDB_KEY", ImdbKey
+    }
+
     buildFeatures {
         viewBinding true
     }
