@@ -30,11 +30,18 @@ jobs:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-26;google_apis;x86
 
+      # todo: handle keystore.properties. My signing keys are not pushed to git for security
       # And finally run the release build
+#      - run:
+#          name: Assemble release build
+#          command: |
+#            ./gradlew assembleRelease
+
+      # And finally run the debug build
       - run:
-          name: Assemble release build
+          name: Assemble debug build
           command: |
-            ./gradlew assembleRelease    
+            ./gradlew assembleDebug
 
 workflows:
   # Below is the definition of your workflow.
