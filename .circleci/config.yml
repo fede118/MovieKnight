@@ -17,6 +17,10 @@ jobs:
       # Checkout the code as the first step.
       - checkout
 
+      #Giving circle ci permission
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       # The next step will run the unit tests
       - android/run-tests:
           test-command: ./gradlew detekt testDebug --continue
@@ -24,7 +28,7 @@ jobs:
       # Then start the emulator and run the Instrumentation tests!
       - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
-          system-image: system-images;android-25;google_apis;x86
+          system-image: system-images;android-26;google_apis;x86
 
       # And finally run the release build
       - run:
