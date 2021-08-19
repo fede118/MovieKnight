@@ -53,6 +53,6 @@ captures/
 *.jks
 
 # Idea files
-.idea/*
+.idea
 /app/release/app-release.aab
 /app/release/output-metadata.json
