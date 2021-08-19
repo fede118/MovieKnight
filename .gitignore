@@ -28,7 +28,6 @@ out/
 # Gradle files
 .gradle/
 build/
-config/
 build-cache/
 
 # Local configuration file (sdk path, etc)
