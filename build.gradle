@@ -24,6 +24,7 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -34,9 +35,8 @@ task clean(type: Delete) {
 subprojects {
     detekt {
 
-        // Version of Detekt that will be used. When unspecified the latest detekt
-        // version found will be used. Override to stay on the same version.
-        toolVersion = "1.18.0-RC2"
+        // Not specifying latest version of Detekt. When unspecified the latest detekt
+        // version found will be used. Override to stay on the same version. Ex.: toolVersion = "1.18.0-RC2"
 
         // The directories where detekt looks for source files.
         // Defaults to `files("src/main/java", "src/test/java", "src/main/kotlin", "src/test/kotlin")`.
@@ -48,7 +48,7 @@ subprojects {
 
         // Define the detekt configuration(s) you want to use.
         // Defaults to the default detekt configuration.
-        config = files("$rootProject/config/detekt/detekt.yml")
+        config = files("$rootProject.rootDir/config/detekt/detekt.yml")
 
         // Applies the config files on top of detekt's default config file. `false` by default.
         buildUponDefaultConfig = false
@@ -74,7 +74,7 @@ subprojects {
         ignoredBuildTypes = ["release"]
 
         // Android: Don't create tasks for the specified build flavor (e.g. "production")
-        ignoredFlavors = ["production"]
+        ignoredFlavors = ["release"]
 
         // Android: Don't create tasks for the specified build variants (e.g. "productionRelease")
         ignoredVariants = ["productionRelease"]

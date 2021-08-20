@@ -9,6 +9,10 @@ import com.section11.components.recycler.model.ViewHolderModel
 import com.section11.movieknight.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * MovieKnight Main Activity. Consists of 2 custom carrousels (recycler view), one shows coming soon
+ * movies, the other in theaters
+ */
 @AndroidEntryPoint
 class MovieKnightActivity : AppCompatActivity() {
 

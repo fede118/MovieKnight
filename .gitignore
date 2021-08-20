@@ -28,7 +28,6 @@ out/
 # Gradle files
 .gradle/
 build/
-config/
 build-cache/
 
 # Local configuration file (sdk path, etc)
@@ -56,3 +55,4 @@ captures/
 .idea
 /app/release/app-release.aab
 /app/release/output-metadata.json
+/keystore.properties

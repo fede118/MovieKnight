@@ -9,10 +9,19 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\Fede_\\Documents\\Programming\\MovieKnightKeyStore\\MovieKnightKey.jks')
-            storePassword 'federico'
-            keyAlias 'federico0'
-            keyPassword 'federico'
+            // Load keystore
+            def keystorePropertiesFile = rootProject.file("keystore.properties");
+            def keystoreProperties = new Properties()
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
+
+            if (keystorePropertiesFile.exists()) {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
         }
     }
     compileSdkVersion 29
@@ -58,11 +67,13 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-    implementation project(":components")
-    implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -87,6 +98,8 @@ dependencies {
     // Dagger/Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    implementation 'com.github.fede118:components:1.0.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

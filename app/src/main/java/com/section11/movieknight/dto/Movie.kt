@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.section11.components.recycler.model.ViewHolderModel
 
+/**
+ * Movie entity. Has all the info needed about the fetched Movies
+ */
 @Entity
 open class Movie constructor(
     @PrimaryKey(autoGenerate = true)
@@ -30,6 +33,10 @@ open class Movie constructor(
     }
 }
 
+/**
+ * Movies can be of 2 different types:
+ * - [COMING_SOON] or [IN_THEATERS]
+ */
 enum class MovieType {
     COMING_SOON, IN_THEATERS
 }
