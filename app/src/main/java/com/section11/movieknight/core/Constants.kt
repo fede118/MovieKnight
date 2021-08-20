@@ -2,6 +2,10 @@ package com.section11.movieknight.core
 
 import java.util.Calendar
 
+
+/**
+ * Constansts for MovieKnight repo
+ */
 object Constants {
 
     const val DEFAULT_PLACE_HOLDER_ITEMS = 10

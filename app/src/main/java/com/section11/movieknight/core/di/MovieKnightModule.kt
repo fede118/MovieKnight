@@ -23,36 +23,57 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+/**
+ * Dependency module for MovieKnight app
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class MovieKnightModule {
 
+    /**
+     * Provides coming soon movie service
+     */
     @Provides
     fun provideComingSoonMoviesService() : ComingSoonMoviesService {
         return createRepositoryWithDefaultTimeOut(ComingSoonMoviesService::class.java)
     }
 
+    /**
+     * Provides in Theaters movie service
+     */
     @Provides
     fun provideInTheatersService() : InTheatersMoviesService {
         return createRepositoryWithDefaultTimeOut(InTheatersMoviesService::class.java)
     }
 
+    /**
+     * provides local movie repository
+     */
     @Provides
     fun provideMoviesRepository(movieDao: MovieDao, sharedPreferences: SharedPreferences) : MoviesLocalRepository {
         return MoviesLocalRepository(movieDao, sharedPreferences)
     }
 
+    /**
+     * Provides movie data access object
+     */
     @Provides
     fun provideMovieDao(movieDatabase: MovieDatabase) : MovieDao {
         return movieDatabase.movieDao()
     }
 
+    /**
+     * Provides movie data base
+     */
     @Provides
     @Singleton
     fun provideMoviesDatabase(@ApplicationContext appContext: Context): MovieDatabase {
         return Room.databaseBuilder(appContext, MovieKnightDatabase::class.java, "MovieKnight-Database").build()
     }
 
+    /**
+     * Provides MovieKnight shared preferences
+     */
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences {

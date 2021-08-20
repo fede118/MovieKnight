@@ -1,6 +1,2 @@
 include ':app'
 rootProject.name = "MovieKnight"
-
-include ':components'
-
-project (':components').projectDir = new File('../components/components')
