@@ -9,6 +9,10 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Movies Local Repository. Saves movies fetched and stores it for the time
+ * declared in Constants.kt
+ */
 class MoviesLocalRepository @Inject constructor(
     private val movieDao: MovieDao,
     private val sharedPreferences: SharedPreferences
@@ -67,6 +71,11 @@ class MoviesLocalRepository @Inject constructor(
         }
     }
 
+    /**
+     * Gets the saved date or returns null if no there hasn't been any saves
+     *
+     * @return [Date] in which the movies where saved or null
+     */
     fun getMoviesSavedDate(): Date? {
         val timeStamp = sharedPreferences.getLong(TIME_STAMP, ZERO)
         return if (ZERO == timeStamp) {

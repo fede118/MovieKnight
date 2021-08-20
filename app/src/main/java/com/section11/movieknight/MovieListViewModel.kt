@@ -21,6 +21,14 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * The view model for movie lists. Class in charge of fetching coming soon and in theaters movies
+ * also save and restore locally
+ *
+ * @param fetchComingSoonMovies method to fetch coming soon movies
+ * @param fetchInTheatersMovies method to fetch in theaters movies
+ * @param moviesLocalRepository local repository of movies to save/restore
+ */
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
     private val fetchComingSoonMovies: FetchComingSoonMovies,
@@ -114,15 +122,40 @@ class MovieListViewModel @Inject constructor(
         } ?: return true
     }
 
+    /**
+     * State of MovieListViewModel, this can be [InTheatersMovies] update, [ComingSoonMovies] update
+     * or an empty [List] which cointains the number of placeholder items to show
+     */
     sealed class ViewState {
+        /**
+         * ViewState update with in theater movies
+         *
+         * @param inTheatersMovies list of in theaters movies
+         */
         data class InTheatersMovies(val inTheatersMovies: List<Movie>): ViewState()
 
+        /**
+         * ViewState update with in coming soon movies
+         *
+         * @param comingSoonMovies list of in coming soon movies
+         */
         data class ComingSoonMovies(val comingSoonMovies: List<Movie>): ViewState()
 
+        /**
+         * ViewState update which represents empty response
+         *
+         * @param placeHolderItems number of items to show as placeholders
+         */
         data class EmptyList(val placeHolderItems: Int): ViewState()
     }
 
+    /**
+     * MovieList Event
+     */
     sealed class Event {
+        /**
+         * When a movie is tapped we should show details -> still work in progress
+         */
         data class ShowMovieDetails(val movieTitle: String): Event()
     }
 }
